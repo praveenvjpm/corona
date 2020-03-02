@@ -39,4 +39,10 @@ public class Data {
 		this.number = number;
 	}
 
+	@Override
+	public String toString() {
+		return "Data [state=" + state + ", country=" + country + ", corordinates=" + corordinates + ", number=" + number
+				+ "]";
+	}
+
 }
