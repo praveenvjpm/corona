@@ -1,10 +1,9 @@
 package io.java.praveen.service;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.Reader;
 import java.io.StringReader;
 import java.util.Arrays;
+
+import javax.annotation.PostConstruct;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
@@ -12,6 +11,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,7 +19,8 @@ import org.springframework.web.client.RestTemplate;
 public class CoronaDataService {
 
 	public static final String URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv";
-
+    
+	@PostConstruct
 	public String fetchData() {
 
 		RestTemplate rest = new RestTemplate();
@@ -37,7 +38,7 @@ public class CoronaDataService {
 				String country = record.get("Country/Region");
 				String lat = record.get("Lat");
 				String date = record.get("2/27/20");
-				System.out.println("id="+id+"- country"+country+"- lat"+lat+"date"+date);
+				System.out.println("Province/State="+id+"- \t Country/Region"+country+"- \t Lat,Long"+lat+"\t Date"+date);
 			}
 
 		} catch (Exception e) {
@@ -47,6 +48,11 @@ public class CoronaDataService {
 
 		return rest.exchange(URL, HttpMethod.GET, entity, String.class).getBody();
 
+	}
+	
+	@Scheduled(cron="* * * * * * ")
+	public void testService() {
+		System.out.println("Executiong Cron Job");
 	}
 
 }
