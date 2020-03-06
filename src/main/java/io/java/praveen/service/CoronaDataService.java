@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -71,6 +73,24 @@ public class CoronaDataService {
 
 		return rest.exchange(URL, HttpMethod.GET, entity, String.class).getBody();
 
+	}
+	
+	
+	public Map countryReport() {
+		Map<String,Long> m = new HashMap<String,Long>();
+		dat.forEach(k ->{
+			
+			if(m.containsKey(k.getCountry())) {
+				m.put(k.getCountry(), m.get(k.getCountry())+k.getNumber());
+			}
+			else {
+				m.put(k.getCountry(), k.getNumber());
+			}
+			
+		});
+		System.out.println(m.size());
+		return m;
+		
 	}
 	
 	@Scheduled(cron="* * * * * * ")
