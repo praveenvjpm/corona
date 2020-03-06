@@ -22,7 +22,7 @@ public class HomeController {
 	}
 	
 	@GetMapping("/country")
-	public Map getCountryReport() {
+	public List<Data> getCountryReport() {
 		System.out.println("Country Report Called");
 		return data.countryReport();
 	}

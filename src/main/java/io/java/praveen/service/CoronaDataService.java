@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ public class CoronaDataService {
 	public static final String URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv";
     
 	public static List<Data> dat = new ArrayList<Data>();
+	public static List<Data> cat = new ArrayList<Data>();
 	
 	
 	@PostConstruct
@@ -76,7 +78,7 @@ public class CoronaDataService {
 	}
 	
 	
-	public Map countryReport() {
+	public List<Data> countryReport() {
 		Map<String,Long> m = new HashMap<String,Long>();
 		dat.forEach(k ->{
 			
@@ -86,10 +88,25 @@ public class CoronaDataService {
 			else {
 				m.put(k.getCountry(), k.getNumber());
 			}
-			
+
 		});
-		System.out.println(m.size());
-		return m;
+		
+		m.forEach((k,v)->{
+			Data data = new Data();
+			
+			data.setCountry(k);
+			data.setNumber(v);
+			cat.add(data);
+		});
+		
+		
+		
+		
+		
+		
+		System.out.println(m.size()+" -- Total Countries");
+		
+		return cat;
 		
 	}
 	

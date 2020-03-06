@@ -1,6 +1,9 @@
 package io.java.praveen.dao;
 
-public class Data {
+import java.util.Comparator;
+
+
+public class Data implements Comparator<Data> {
 
 	private String state;
 	private String country;
@@ -44,5 +47,16 @@ public class Data {
 		return "Data [state=" + state + ", country=" + country + ", corordinates=" + corordinates + ", number=" + number
 				+ "]";
 	}
+
+	@Override
+	public int compare(Data o1, Data o2) {
+		Data d = (Data) o1;
+		Data e = (Data) o2;
+		return d.getNumber()>e.getNumber()? 1:-1;
+	}
+
+	
+	
+	
 
 }
